@@ -4,33 +4,33 @@
 
 <div class="min-h-screen bg-gray-100 flex flex-col">
 
-    <!-- HEADER / NAVBAR -->
+
     <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
         <div>
-            <h1 class="text-2xl font-bold text-red-700">DDPNMINAS</h1>
-            <p class="text-sm text-gray-600">Promissory Note Management System</p>
+            <h1 class="text-2xl font-bold text-[#660809] ">MY.SPC</h1>
+            <p class="text-sm text-[#000000] ">Promissory Note Management System</p>
         </div>
 
-        <!-- Right Side -->
+   
         <div class="flex items-center gap-6">
-            <button class="relative text-gray-700 hover:text-red-700">
+            <button class="relative text-[#660809]  hover:text-[#000000] ">
                 <iconify-icon icon="mdi:bell-outline" class="text-2xl"></iconify-icon>
             </button>
             <div class="flex items-center gap-2">
                 <iconify-icon icon="mdi:account-circle" class="text-2xl text-gray-700"></iconify-icon>
                 <span class="font-medium">Juvy E. Aballe Jr</span>
             </div>
-            <button class="text-red-600 hover:text-red-800 flex items-center gap-1">
+            <button class="text-[#660809]  hover:text-[#000000]  flex items-center gap-1">
                 <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
             </button>
         </div>
     </header>
 
-    <!-- MAIN FORM SECTION -->
+
     <main class="p-6 max-w-5xl mx-auto w-full">
-        <!-- Back Button -->
+       
         <div class="mb-4">
-            <a href="{{ url('http://127.0.0.1:8000/student/dashboard') }}" class="flex items-center gap-2 text-gray-600 hover:text-red-700">
+            <a href="{{ url('http://127.0.0.1:8000/student/dashboard') }}" class="flex items-center gap-2 text-[#660809]  hover:text-[#000000] ">
                 <iconify-icon icon="mdi:arrow-left"></iconify-icon>
                 Back to Dashboard
             </a>
@@ -44,21 +44,20 @@
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Student Name -->
+              
                     <div>
                         <label class="block text-sm font-medium mb-1">Student Name</label>
                         <input type="text" name="student_name" value="John Doe"
                             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600" readonly>
                     </div>
 
-                    <!-- Student ID -->
+                    
                     <div>
                         <label class="block text-sm font-medium mb-1">Student ID</label>
                         <input type="text" name="student_id" value="2021-12345"
                             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600" readonly>
                     </div>
 
-                    <!-- Gender -->
                     <div>
                         <label class="block text-sm font-medium mb-1">Gender</label>
                         <select name="gender" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
@@ -68,7 +67,7 @@
                         </select>
                     </div>
 
-                    <!-- Department -->
+         
                     <div>
                         <label class="block text-sm font-medium mb-1">Department</label>
                         <select name="department" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
@@ -79,14 +78,14 @@
                         </select>
                     </div>
 
-                    <!-- Phone Number -->
+               
                     <div>
                         <label class="block text-sm font-medium mb-1">Phone Number</label>
                         <input type="text" name="phone" placeholder="+63 912 345 6789"
                             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
                     </div>
 
-                    <!-- Year Level -->
+            
                     <div>
                         <label class="block text-sm font-medium mb-1">Year Level</label>
                         <select name="year_level" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
@@ -98,13 +97,13 @@
                         </select>
                     </div>
 
-                    <!-- Amount -->
+
                     <div>
                         <label class="block text-sm font-medium mb-1">Amount (₱)</label>
                         <input type="number" name="amount" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
                     </div>
 
-                    <!-- Reason -->
+                
                     <div>
                         <label class="block text-sm font-medium mb-1">Reason</label>
                         <select name="reason" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
@@ -115,7 +114,7 @@
                         </select>
                     </div>
 
-                    <!-- Term -->
+    
                     <div>
                         <label class="block text-sm font-medium mb-1">Term</label>
                         <select name="term" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
@@ -125,21 +124,21 @@
                         </select>
                     </div>
 
-                    <!-- Academic Year -->
+                  
                     <div>
                         <label class="block text-sm font-medium mb-1">Academic Year</label>
                         <input type="text" name="academic_year" value="2023-2024"
                             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
                     </div>
 
-                    <!-- Down Payment -->
+              
                     <div>
                         <label class="block text-sm font-medium mb-1">Down Payment (₱)</label>
                         <input type="number" name="down_payment"
                             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
                     </div>
 
-                    <!-- Payment Due Date -->
+               
                     <div>
                         <label class="block text-sm font-medium mb-1">Payment Due Date</label>
                         <input type="date" name="due_date"
@@ -147,14 +146,14 @@
                     </div>
                 </div>
 
-                <!-- Additional Notes -->
+    
                 <div>
                     <label class="block text-sm font-medium mb-1">Additional Notes</label>
                     <textarea name="notes" rows="3"
                         class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600"></textarea>
                 </div>
 
-                <!-- Attach Files -->
+              
                 <div>
                     <label class="block text-sm font-medium mb-1">Upload Supporting Documents</label>
                     <input type="file" name="attachments[]" multiple
@@ -162,10 +161,10 @@
                     <p class="text-xs text-gray-500 mt-1">Attach ID, proof of hardship, etc.</p>
                 </div>
 
-                <!-- Review Button -->
+              
                 <div class="pt-4">
                     <button type="button" onclick="reviewApplication()"
-                        class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg shadow">
+                        class="bg-[#660809]  hover:bg-[#000000]  text-white px-6 py-2 rounded-lg shadow">
                         Review Application
                     </button>
                 </div>
@@ -174,10 +173,10 @@
     </main>
 </div>
 
-<!-- REVIEW MODAL -->
+
 <div id="reviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white w-full max-w-2xl rounded-lg shadow-lg p-6 relative">
-        <!-- Close -->
+      
         <button onclick="document.getElementById('reviewModal').classList.add('hidden')"
             class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">✖</button>
 
@@ -186,9 +185,9 @@
 
         <div class="mt-6 flex justify-end gap-3">
             <button type="button" onclick="document.getElementById('reviewModal').classList.add('hidden')"
-                class="px-5 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+                class="px-5 py-2 bg-[#660809]  rounded-lg hover:bg-[#000000] text-white">Cancel</button>
             <button type="button" onclick="submitFinal()"
-                class="bg-red-700 hover:bg-red-800 text-white px-6 py-2 rounded-lg">
+                class="bg-[#660809]  hover:bg-[#000000] text-white px-6 py-2 rounded-lg">
                 Submit
             </button>
         </div>

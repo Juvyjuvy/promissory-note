@@ -4,6 +4,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\AdminDashboardController; // ✅ Add this
 
@@ -15,6 +16,7 @@ use App\Http\Controllers\AdminDashboardController; // ✅ Add this
 
 // Default login page
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/register', [RegisterController::class, 'showregisterForm'])->name('register');
 
 // Student routes
 Route::prefix('student')->group(function () {
@@ -31,5 +33,5 @@ Route::prefix('admin')->group(function () {
 
 });
 Route::get('/admin/analytics', function () {
-    return view('admin.analytics'); // resources/views/admin/analytics.blade.php
+    return view('admin.analytics'); 
 })->name('admin.analytics');

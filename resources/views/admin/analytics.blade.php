@@ -9,12 +9,12 @@
 
         <div class="flex items-center gap-3 mt-4 sm:mt-0">
             <a href="#"
-               class="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-xl shadow">
+               class="inline-flex items-center gap-2 bg-[#660809] hover:bg-[#000000] text-white px-4 py-2 rounded-xl shadow">
                 <iconify-icon icon="mdi:download" class="text-lg"></iconify-icon>
                 Export Report
             </a>
             <a href="{{ route('admin.dashboard') }}"
-               class="inline-flex items-center gap-2 text-slate-700 hover:text-red-700 px-3 py-2 rounded-xl">
+               class="inline-flex items-center gap-2 text-[#660809] hover:text-[#000000] px-3 py-2 rounded-xl">
                 <iconify-icon icon="mdi:arrow-left" class="text-lg"></iconify-icon>
                 Back to Admin
             </a>
@@ -25,7 +25,7 @@
 
         {{-- KPI CARDS --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 mb-6">
-            <div class="rounded-2xl shadow bg-gradient-to-br from-red-800 to-red-600 text-white p-6">
+            <div class="rounded-2xl shadow bg-[#660809] from-red-800 to-red-600 text-white p-6">
                 <div class="flex items-start gap-4">
                     <div class="bg-white/15 rounded-xl p-3">
                         <iconify-icon icon="mdi:calendar-month-outline" class="text-2xl"></iconify-icon>
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl shadow bg-gradient-to-br from-red-800 to-red-600 text-white p-6">
+            <div class="rounded-2xl shadow bg-[#660809] from-red-800 to-red-600 text-white p-6">
                 <div class="flex items-start gap-4">
                     <div class="bg-white/15 rounded-xl p-3">
                         <iconify-icon icon="mdi:account-group" class="text-2xl"></iconify-icon>
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl shadow bg-gradient-to-br from-red-800 to-red-600 text-white p-6">
+            <div class="rounded-2xl shadow bg-[#660809] from-red-800 to-red-600 text-white p-6">
                 <div class="flex items-start gap-4">
                     <div class="bg-white/15 rounded-xl p-3">
                         <iconify-icon icon="mdi:cash-multiple" class="text-2xl"></iconify-icon>
@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <div class="rounded-2xl shadow bg-gradient-to-br from-red-800 to-red-600 text-white p-6">
+            <div class="rounded-2xl shadow bg-[#660809] from-red-800 to-red-600 text-white p-6">
                 <div class="flex items-start gap-4">
                     <div class="bg-white/15 rounded-xl p-3">
                         <iconify-icon icon="mdi:percent-outline" class="text-2xl"></iconify-icon>

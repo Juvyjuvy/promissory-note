@@ -10,4 +10,6 @@ class LoginController extends Controller
     {
         return view('login'); // Assumes you have a login.blade.php in resources/views
     }
+
+    
 }

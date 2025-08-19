@@ -1,53 +1,52 @@
 @extends('layouts.layout')
-
+@section('title', 'Admin Dashboard')
 @section('content')
 <div class="min-h-screen bg-gray-100 flex flex-col">
 
-    <!-- HEADER -->
+  
     <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
         <div>
-            <h1 class="text-2xl font-bold text-red-700">DDPNMINAS</h1>
-            <p class="text-sm text-gray-600">Promissory Note Management System</p>
+            <h1 class="text-2xl font-bold text-[#660809]">MY.SPC</h1>
+            <p class="text-sm text-[#000000]">Promissory Note Management System</p>
         </div>
 
         <div class="flex items-center gap-6">
-            <!-- Notifications -->
-            <button class="relative text-gray-700 hover:text-red-700" title="Notifications">
+         
+            <button class="relative text-[#660809] hover:text-[#000000]" title="Notifications">
                 <iconify-icon icon="mdi:bell-outline" class="text-2xl"></iconify-icon>
                 <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs px-1.5 rounded-full">3</span>
             </button>
 
-            <!-- User -->
             <div class="flex items-center gap-2">
                 <iconify-icon icon="mdi:account-circle" class="text-2xl text-gray-700"></iconify-icon>
                 <span class="font-medium">Admin User</span>
             </div>
 
-            <!-- Logout (frontend only) -->
-            <button class="text-red-600 hover:text-red-800 flex items-center gap-1" title="Logout">
+            <!-- Logout -->
+            <button class="text-[#660809] hover:text-[#000000] flex items-center gap-1" title="Logout">
                 <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
                 Logout
             </button>
         </div>
     </header>
 
-    <!-- MAIN -->
+
     <main class="p-6 max-w-7xl mx-auto w-full">
 
-        <!-- Title + Actions (RIGHT-ALIGNED BUTTONS) -->
+        
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <h2 class="text-2xl font-bold">Admin Dashboard</h2>
 
             <div class="flex gap-3 mt-4 sm:mt-0">
                 <a href="analytics"
-                   class="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg shadow"
+                   class="inline-flex items-center gap-2 bg-[#660809] hover:bg-[#000000] text-white px-4 py-2 rounded-lg shadow"
                    title="View analytics and reports">
                     <iconify-icon icon="mdi:chart-line"></iconify-icon>
                     Analytics
                 </a>
 
                 <a href="#"
-                   class="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg shadow"
+                   class="inline-flex items-center gap-2 bg-[#660809] hover:bg-[#000000] text-white px-4 py-2 rounded-lg shadow"
                    title="Manage user accounts">
                     <iconify-icon icon="mdi:account-multiple-outline"></iconify-icon>
                     Manage Users
@@ -55,9 +54,9 @@
             </div>
         </div>
 
-        <!-- Stats Cards -->
+   
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
-            <div class="bg-red-700 text-white p-6 rounded-xl shadow flex items-center justify-between">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <span class="inline-flex rounded-xl bg-white/20 p-3">
                         <iconify-icon icon="mdi:file-document-outline" class="text-2xl"></iconify-icon>
@@ -69,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="bg-amber-700 text-white p-6 rounded-xl shadow flex items-center justify-between">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <span class="inline-flex rounded-xl bg-white/20 p-3">
                         <iconify-icon icon="mdi:clock-outline" class="text-2xl"></iconify-icon>
@@ -81,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="bg-green-700 text-white p-6 rounded-xl shadow flex items-center justify-between">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <span class="inline-flex rounded-xl bg-white/20 p-3">
                         <iconify-icon icon="mdi:check-circle-outline" class="text-2xl"></iconify-icon>
@@ -93,7 +92,7 @@
                 </div>
             </div>
 
-            <div class="bg-red-900 text-white p-6 rounded-xl shadow flex items-center justify-between">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <span class="inline-flex rounded-xl bg-white/20 p-3">
                         <iconify-icon icon="mdi:close-circle-outline" class="text-2xl"></iconify-icon>
@@ -106,7 +105,6 @@
             </div>
         </div>
 
-        <!-- Pending Requests Table -->
         <div class="bg-white shadow rounded-xl overflow-hidden">
             <div class="px-6 py-4 border-b">
                 <h3 class="text-lg font-semibold">Pending Requests</h3>
