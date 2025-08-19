@@ -7,6 +7,8 @@
         "dev": "vite"
     },
     "devDependencies": {
+        "@egoist/tailwindcss-icons": "^1.9.0",
+        "@iconify/json": "^2.2.375",
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",

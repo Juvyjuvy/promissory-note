@@ -6,6 +6,7 @@
     <title>Student Dashboard - My.SPC</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
         @vite('resources/css/app.css')
 
 </head>
