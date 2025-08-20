@@ -9,7 +9,7 @@
             <h1 class="text-2xl font-bold text-[#660809]">MY.SPC</h1>
             <p class="text-sm text-[#000000]">Promissory Note Management System</p>
         </div>
-
+   
         <div class="flex items-center gap-6">
          
             <button class="relative text-[#660809] hover:text-[#000000]" title="Notifications">
@@ -19,14 +19,16 @@
 
             <div class="flex items-center gap-2">
                 <iconify-icon icon="mdi:account-circle" class="text-2xl text-gray-700"></iconify-icon>
-                <span class="font-medium">Admin User</span>
+                <span class="font-medium">{{ auth()->check() ? auth()->user()->fullname : '' }}</span>
             </div>
-
+    <form method="POST" action="{{ route('logout') }}">
+    @csrf
             <!-- Logout -->
-            <button class="text-[#660809] hover:text-[#000000] flex items-center gap-1" title="Logout">
+            <button type="submit" class="text-[#660809] hover:text-[#000000] flex items-center gap-1" title="Logout">
                 <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
                 Logout
             </button>
+            </form>
         </div>
     </header>
 
@@ -38,7 +40,7 @@
             <h2 class="text-2xl font-bold">Admin Dashboard</h2>
 
             <div class="flex gap-3 mt-4 sm:mt-0">
-                <a href="analytics"
+                <a href="{{ route('admin.analytics') }}"
                    class="inline-flex items-center gap-2 bg-[#660809] hover:bg-[#000000] text-white px-4 py-2 rounded-lg shadow"
                    title="View analytics and reports">
                     <iconify-icon icon="mdi:chart-line"></iconify-icon>

@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;   // ✅ import Auth
 use Carbon\Carbon;
-// use App\Models\PromissoryNote; // uncomment when you connect to DB
 
 class AdminDashboardController extends Controller
 {
+
+    public function AdminAnalytic()
+    {
+        return view('admin.analytics');
+    }
+
     public function AdminDashboard()
     {
         // Dummy data for testing
@@ -34,5 +40,13 @@ class AdminDashboardController extends Controller
 
         return view('admin.admin-dashboard', compact('stats', 'pendingRequests'));
     }
-}
 
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('success', 'You have been logged out.');
+    }
+}

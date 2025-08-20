@@ -10,9 +10,10 @@
             <p class="text-sm text-[#000000] ">Promissory Note Management System</p>
         </div>
 
-        
+               <form method="POST" action="{{ route('logout') }}">
+    @csrf
         <div class="flex items-center gap-6">
-            
+     
             <button class="relative text-[#660809] hover:text-[#000000] ">
                 <iconify-icon icon="mdi:bell-outline" class="text-2xl"></iconify-icon>
                 <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs px-1.5 rounded-full">3</span>
@@ -25,11 +26,12 @@
             </div>
 
            
-            <button class="text-[#660809] hover:text-[#000000] flex items-center gap-1">
+            <button  type="submit" class="text-[#660809] hover:text-[#000000] flex items-center gap-1">
                 <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
                        Logout
             </button>
         </div>
+        </form>
     </header>
 
     
