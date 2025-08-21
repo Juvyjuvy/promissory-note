@@ -58,25 +58,26 @@
                             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600" readonly>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Gender</label>
-                        <select name="gender" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
-                            <option>Select Gender</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                        </select>
-                    </div>
+                   <div>
+  <label class="block text-sm font-medium mb-1">Gender</label>
+  <select name="gender" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
+    <option value="">Select Gender</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
+</div>
 
          
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Department</label>
-                        <select name="department" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
-                            <option>Select Department</option>
-                            <option>College of Computer Studies</option>
-                            <option>College of Education</option>
-                            <option>College of Business</option>
-                        </select>
-                    </div>
+ <div>
+  <label class="block text-sm font-medium mb-1">Department</label>
+  <select name="department" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
+    <option value="">Select Department</option>
+    <option value="College of Computer Studies">College of Computer Studies</option>
+    <option value="College of Education">College of Education</option>
+    <option value="College of Business">College of Business</option>
+  </select>
+</div>
+
 
                
                     <div>
@@ -86,16 +87,16 @@
                     </div>
 
             
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Year Level</label>
-                        <select name="year_level" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
-                            <option>Select Year</option>
-                            <option>1st Year</option>
-                            <option>2nd Year</option>
-                            <option>3rd Year</option>
-                            <option>4th Year</option>
-                        </select>
-                    </div>
+     <div>
+  <label class="block text-sm font-medium mb-1">Year Level</label>
+  <select name="year_level" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
+    <option value="">Select Year</option>
+    <option value="1st Year">1st Year</option>
+    <option value="2nd Year">2nd Year</option>
+    <option value="3rd Year">3rd Year</option>
+    <option value="4th Year">4th Year</option>
+  </select>
+</div>
 
 
                     <div>
@@ -104,25 +105,25 @@
                     </div>
 
                 
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Reason</label>
-                        <select name="reason" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
-                            <option>Select Reason</option>
-                            <option>Tuition Fee</option>
-                            <option>Laboratory Fee</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
+<div>
+  <label class="block text-sm font-medium mb-1">Reason</label>
+  <select name="reason" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
+    <option value="">Select Reason</option>
+    <option value="Tuition Fee">Tuition Fee</option>
+    <option value="Laboratory Fee">Laboratory Fee</option>
+    <option value="Other">Other</option>
+  </select>
+</div>
 
     
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Term</label>
-                        <select name="term" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
-                            <option>Select Term</option>
-                            <option>1st Term</option>
-                            <option>2nd Term</option>
-                        </select>
-                    </div>
+<div>
+  <label class="block text-sm font-medium mb-1">Term</label>
+  <select name="term" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
+    <option value="">Select Term</option>
+    <option value="1st Term">1st Term</option>
+    <option value="2nd Term">2nd Term</option>
+  </select>
+</div>
 
                   
                     <div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\AdminDashboardController; // ✅ Add this
+use App\Http\Controllers\PromissoryNoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::prefix('student')->group(function () {
     Route::get('/promissory-note-form', [StudentDashboardController::class, 'PromissoryNote'])->name('student.promissory-note');
     Route::get('/status-tracking', [StudentDashboardController::class, 'StatusTracking'])->name('student.status-tracking');
     Route::get('/payment-history', [StudentDashboardController::class, 'PaymentHistory'])->name('student.payment-history');
+    Route::post('/promissory-note-submit', [PromissoryNoteController::class, 'store'])->name('promissory-notes.store');
 });
 
 Route::middleware(['auth'])->prefix('student')->group(function () {
