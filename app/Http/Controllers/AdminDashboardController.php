@@ -3,50 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;   // ✅ import Auth
-use Carbon\Carbon;
+use App\Models\PromissoryNote;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
+    public function AdminDashboard(Request $request)
+    {
+        $q = PromissoryNote::query()->with('user');
+
+        if ($request->filled('status'))     $q->where('status', $request->status);
+        if ($request->filled('department')) $q->where('department', $request->department);
+        if ($request->filled('from'))       $q->whereDate('created_at', '>=', $request->date('from'));
+        if ($request->filled('to'))         $q->whereDate('created_at', '<=', $request->date('to'));
+
+        $pendingNotes = (clone $q)->where('status', 'pending')->latest()->get();
+
+        $stats = [
+            'total'    => PromissoryNote::count(),
+            'pending'  => PromissoryNote::where('status','pending')->count(),
+            'approved' => PromissoryNote::where('status','approved')->count(),
+            'rejected' => PromissoryNote::where('status','rejected')->count(),
+        ];
+
+        return view('admin.dashboard', compact('pendingNotes','stats'));
+    }
 
     public function AdminAnalytic()
     {
-        return view('admin.analytics');
-    }
+        $thisTerm = PromissoryNote::where('created_at','>=', now()->startOfQuarter())->count();
+        $activeStudents = PromissoryNote::distinct('user_id')->count('user_id');
+        $totalAmount = (float) PromissoryNote::sum(DB::raw('COALESCE(amount,0) - COALESCE(down_payment,0)'));
+        $decidedLast30 = PromissoryNote::whereIn('status',['approved','rejected'])
+            ->where('updated_at','>=', now()->subDays(30))->count();
+        $approvedLast30 = PromissoryNote::where('status','approved')
+            ->where('updated_at','>=', now()->subDays(30))->count();
+        $approvalRate = $decidedLast30 ? round($approvedLast30/$decidedLast30*100) : 0;
 
-    public function AdminDashboard()
-    {
-        // Dummy data for testing
-        $stats = [
-            'total'    => 5,
-            'pending'  => 1,
-            'approved' => 3,
-            'rejected' => 1,
-        ];
+        $kpis = compact('thisTerm','activeStudents','totalAmount','approvalRate');
 
-        $pendingRequests = collect([
-            (object)[
-                'id'           => 3,
-                'note_code'    => 'PN-2024-003',
-                'student_name' => 'John Doe',
-                'student_no'   => '2021-12345',
-                'gender'       => 'Male',
-                'department'   => 'Computer Science',
-                'amount'       => 7500,
-                'reason'       => 'Tuition Fee',
-                'submitted_at' => Carbon::parse('2024-01-22 09:45:00'),
-            ],
-        ]);
-
-        return view('admin.admin-dashboard', compact('stats', 'pendingRequests'));
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login')->with('success', 'You have been logged out.');
+        return view('admin.analytics', compact('kpis'));
     }
 }

@@ -1,17 +1,16 @@
-@extends('layouts.layout')
+@extends('layouts.layout') 
 @section('title', 'Admin Dashboard')
+
 @section('content')
 <div class="min-h-screen bg-gray-100 flex flex-col">
 
-  
     <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
         <div>
             <h1 class="text-2xl font-bold text-[#660809]">MY.SPC</h1>
             <p class="text-sm text-[#000000]">Promissory Note Management System</p>
         </div>
-   
+
         <div class="flex items-center gap-6">
-         
             <button class="relative text-[#660809] hover:text-[#000000]" title="Notifications">
                 <iconify-icon icon="mdi:bell-outline" class="text-2xl"></iconify-icon>
                 <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs px-1.5 rounded-full">3</span>
@@ -19,23 +18,21 @@
 
             <div class="flex items-center gap-2">
                 <iconify-icon icon="mdi:account-circle" class="text-2xl text-gray-700"></iconify-icon>
-                <span class="font-medium">{{ auth()->check() ? auth()->user()->fullname : '' }}</span>
+                <span class="font-medium">{{ auth()->check() ? (auth()->user()->fullname ?? 'Admin') : '' }}</span>
             </div>
-    <form method="POST" action="{{ route('logout') }}">
-    @csrf
-            <!-- Logout -->
-            <button type="submit" class="text-[#660809] hover:text-[#000000] flex items-center gap-1" title="Logout">
-                <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
-                Logout
-            </button>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="text-[#660809] hover:text-[#000000] flex items-center gap-1" title="Logout">
+                    <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
+                    Logout
+                </button>
             </form>
         </div>
     </header>
 
-
     <main class="p-6 max-w-7xl mx-auto w-full">
 
-        
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <h2 class="text-2xl font-bold">Admin Dashboard</h2>
 
@@ -56,7 +53,6 @@
             </div>
         </div>
 
-   
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
             <div class="bg-[#660809] text-white p-6 rounded-xl shadow flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -65,7 +61,7 @@
                     </span>
                     <div>
                         <p class="text-sm/5 opacity-90">Total Notes</p>
-                        <p class="text-3xl font-bold">5</p>
+                        <p class="text-3xl font-bold">{{ $stats['total'] ?? 0 }}</p>
                     </div>
                 </div>
             </div>
@@ -77,7 +73,7 @@
                     </span>
                     <div>
                         <p class="text-sm/5 opacity-90">Pending Review</p>
-                        <p class="text-3xl font-bold">1</p>
+                        <p class="text-3xl font-bold">{{ $stats['pending'] ?? 0 }}</p>
                     </div>
                 </div>
             </div>
@@ -89,7 +85,7 @@
                     </span>
                     <div>
                         <p class="text-sm/5 opacity-90">Approved</p>
-                        <p class="text-3xl font-bold">3</p>
+                        <p class="text-3xl font-bold">{{ $stats['approved'] ?? 0 }}</p>
                     </div>
                 </div>
             </div>
@@ -101,7 +97,7 @@
                     </span>
                     <div>
                         <p class="text-sm/5 opacity-90">Rejected</p>
-                        <p class="text-3xl font-bold">1</p>
+                        <p class="text-3xl font-bold">{{ $stats['rejected'] ?? 0 }}</p>
                     </div>
                 </div>
             </div>
@@ -125,53 +121,70 @@
                             <th class="py-3 px-6 border-b">Actions</th>
                         </tr>
                     </thead>
+
                     <tbody class="text-sm text-gray-800">
-                        <!-- Sample row -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="py-4 px-6 border-b font-medium">PN-2024-003</td>
+                        @forelse ($pendingNotes as $note)
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 px-6 border-b font-medium">{{ $note->pn_id ?? $note->id }}</td>
 
-                            <td class="py-4 px-6 border-b">
-                                <div class="font-semibold">John Doe</div>
-                                <div class="text-gray-500 text-xs">2021-12345 • Male</div>
-                            </td>
+                                <td class="py-4 px-6 border-b">
+                                    <div class="font-semibold">{{ $note->student_name }}</div>
+                                    <div class="text-gray-500 text-xs">{{ $note->student_id }} • {{ $note->gender ?? '—' }}</div>
+                                </td>
 
-                            <td class="py-4 px-6 border-b">
-                                <span class="inline-block bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
-                                    Computer Science
-                                </span>
-                            </td>
+                                <td class="py-4 px-6 border-b">
+                                    <span class="inline-block bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
+                                        {{ $note->department ?? '—' }}
+                                    </span>
+                                </td>
 
-                            <td class="py-4 px-6 border-b font-semibold">₱7,500.00</td>
-                            <td class="py-4 px-6 border-b">Tuition Fee</td>
+                                <td class="py-4 px-6 border-b font-semibold">
+                                    ₱{{ number_format((float)($note->amount ?? 0), 2) }}
+                                </td>
 
-                            <td class="py-4 px-6 border-b">
-                                <div>2024-01-22</div>
-                                <div class="text-gray-500 text-xs">1/22/2024, 9:45:00 AM</div>
-                            </td>
+                                <td class="py-4 px-6 border-b">
+                                    {{ $note->reason ?? '—' }}
+                                </td>
 
-                            <td class="py-4 px-6 border-b">
-                                <div class="flex items-center gap-2">
-                                    <button class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-green-600 hover:bg-green-700 text-white" title="Approve">
-                                        <iconify-icon icon="mdi:check"></iconify-icon>
-                                    </button>
+                                <td class="py-4 px-6 border-b">
+                                    <div>{{ optional($note->created_at)->toDateString() }}</div>
+                                    <div class="text-gray-500 text-xs">
+                                        {{ optional($note->created_at)->format('n/j/Y, g:i:s A') }}
+                                    </div>
+                                </td>
 
-                                    <button class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-600 hover:bg-red-700 text-white" title="Reject">
-                                        <iconify-icon icon="mdi:close"></iconify-icon>
-                                    </button>
+                                {{-- ACTIONS --}}
+                                <td class="py-4 px-6 border-b">
+                                    <div class="flex items-center gap-2">
 
-                                    <button class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-700 text-white" title="View">
-                                        <iconify-icon icon="mdi:eye-outline"></iconify-icon>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                        <form method="POST" action="{{ route('admin.pn.approve', $note->pn_id ?? $note->id) }}">
+                                            @csrf
+                                            <button class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-green-600 hover:bg-green-700 text-white" title="Approve">
+                                                <iconify-icon icon="mdi:check"></iconify-icon>
+                                            </button>
+                                        </form>
 
-                        <!-- Placeholder row -->
-                        <tr>
-                            <td colspan="7" class="py-8 text-center text-gray-500">
-                                Add more rows or connect to your backend later.
-                            </td>
-                        </tr>
+                                        <form method="POST" action="{{ route('admin.pn.reject', $note->pn_id ?? $note->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="reason" value="Insufficient requirement(s)">
+                                            <button class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-600 hover:bg-red-700 text-white" title="Reject">
+                                                <iconify-icon icon="mdi:close"></iconify-icon>
+                                            </button>
+                                        </form>
+
+                                        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-700 text-white" title="View">
+                                            <iconify-icon icon="mdi:eye-outline"></iconify-icon>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="py-8 text-center text-gray-500">
+                                    No pending requests.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -179,6 +192,5 @@
     </main>
 </div>
 
-<!-- ICONIFY -->
 <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
 @endsection

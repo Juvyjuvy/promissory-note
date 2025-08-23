@@ -7,11 +7,14 @@
     <title>@yield('title') | MY.SPC</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-        @vite('resources/css/app.css')
-
+    @vite('resources/css/app.css')
 </head>
 
 <body class="bg-gray-100 font-sans">
+    {{-- Make auth user available to ALL child views --}}
+    @php($u = auth()->user())
+    @php($user = $u)
+
     @yield('content')
 </body>
 </html>

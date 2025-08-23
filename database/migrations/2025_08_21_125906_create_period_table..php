@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evaluations', function (Blueprint $table) {
-            $table->id('evaluation_id');
+        Schema::create('period', function (Blueprint $table) {
+            $table->bigIncrements('period_id');
             $table->unsignedBigInteger('pn_id');
             $table->foreign('pn_id')->references('pn_id')->on('promissorynotes')->onDelete('cascade');
-            $table->string('evaluation_status');
-            $table->timestamp('evaluated_date');
+            $table->string('term');
+            $table->string('semester');
+            $table->string('school_year');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('evaluations');
+        Schema::dropIfExists('period');
     }
 };

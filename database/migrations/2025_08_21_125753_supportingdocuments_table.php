@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('approve', function (Blueprint $table) {
-            $table->id('approve_id');
+        Schema::create('supportingdocuments', function (Blueprint $table) {
+            $table->bigIncrements('document_id');
             $table->unsignedBigInteger('pn_id');
             $table->foreign('pn_id')->references('pn_id')->on('promissorynotes')->onDelete('cascade');
-            $table->timestamp('approval_date');
+            $table->string('file_name');
+            $table->string('file_path');
+            $table->timestamp('upload_date');
+            $table->string('document_type');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('approve');
+        Schema::dropIfExists('supportingdocuments');
     }
 };

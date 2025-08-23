@@ -12,12 +12,16 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use Notifiable;
 
-    use Notifiable;
+
 
     // Custom primary key
     protected $primaryKey = 'user_id';
     public $incrementing = true;
     protected $keyType = 'int';
+public function getDisplayNameAttribute()
+{
+    return $this->fullname ?? $this->name ?? strtok($this->email, '@');
+}
 
     protected $fillable = [
         'fullname',

@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->id('notification_id');
-            $table->unsignedBigInteger('pn_id');
+        Schema::create('approve', function (Blueprint $table) {
+            $table->bigIncrements('approve_id');
+            $table->unsignedBigInteger('pn_id')->unsigned();
             $table->foreign('pn_id')->references('pn_id')->on('promissorynotes')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->text('content');
-            $table->timestamp('sent_at');
+            $table->timestamp('approval_date');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('approve');
     }
 };
