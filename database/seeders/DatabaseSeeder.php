@@ -18,8 +18,17 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
         ]);
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'admin@myspc.edu'],
+            [
+                'fullname'         => 'System Administrator',
+                'password'         => Hash::make('12345678'), // change in production!
+                'role'             => 'admin',
+                'course'           => 'N/A',
+                'year_level'       => 'N/A',
+                'college'          => 'N/A',
+                'gender'           => 'N/A',
+                'submission_count' => 0,
+                'email_verified_at'=> now(),
         ]);
     }
 }
