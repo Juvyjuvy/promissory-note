@@ -41,6 +41,15 @@ Route::middleware(['auth'])->prefix('student')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'AdminDashboard'])->name('admin.dashboard');
     Route::get('/analytics', [AdminDashboardController::class, 'AdminAnalytic'])->name('admin.analytics');
+    Route::view('/records', 'admin.records.index')->name('admin.records.index');
+    Route::view('/admin/users', 'admin.users.index')->name('admin.users.index');
+    Route::view('/payments', 'admin.placeholder')->name('admin.payments.index');
+    Route::view('/records/export', 'admin.placeholder')->name('admin.records.export');
+    Route::view('/records/{id}', 'admin.placeholder')->name('admin.records.show');
+    Route::view('/users/{id}/edit', 'admin.placeholder')->name('admin.users.edit');
+    Route::view('/users/{id}/destroy', 'admin.placeholder')->name('admin.users.destroy');
+    Route::view('/users/create', 'admin.placeholder')->name('admin.users.store');
+    Route::view('/downpayments', 'admin.downpayments')->name('admin.downpayments');
 
     Route::post('/promissory-notes/{note}/approve', [AdminPromissoryNoteController::class, 'approve'])->name('admin.pn.approve');
     Route::post('/promissory-notes/{note}/reject',  [AdminPromissoryNoteController::class, 'reject'])->name('admin.pn.reject');
