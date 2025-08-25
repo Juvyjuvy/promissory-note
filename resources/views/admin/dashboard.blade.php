@@ -1,37 +1,36 @@
-@extends('layouts.layout')
+@extends('layouts.layout') 
 @section('title', 'Admin Dashboard')
 
 @section('content')
 @php
-    // Safe defaults so the view won’t error if controller doesn’t pass these yet
     $stats        = $stats        ?? ['total'=>127,'pending'=>23,'approved'=>89,'rejected'=>15];
     $pendingNotes = $pendingNotes ?? collect();
 @endphp
 
-<div class="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex flex-col">
+<div class="min-h-screen bg-gray-100 flex flex-col">
 
-    {{-- Top Navbar (brand + user menu) --}}
-    <header class="bg-white shadow-lg border-b-4 border-red-800 px-6 py-4">
+    {{-- Top Navbar --}}
+    <header class="bg-[#660809] text-white px-6 py-4 shadow">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="text-center">
-                <h1 class="text-3xl font-bold text-red-800">DDPNMINAS</h1>
-                <p class="text-sm text-red-600 font-medium">Promissory Note Management System</p>
+                <h1 class="text-3xl font-bold">DDPNMINAS</h1>
+                <p class="text-sm font-medium text-gray-200">Promissory Note Management System</p>
             </div>
 
             <div class="flex items-center gap-6">
-                <button class="relative text-gray-700 hover:text-red-800" title="Notifications">
+                <button class="relative hover:text-gray-200" title="Notifications">
                     <iconify-icon icon="mdi:bell-outline" class="text-2xl"></iconify-icon>
                     <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 grid place-items-center">3</span>
                 </button>
 
                 <div class="flex items-center gap-2">
-                    <iconify-icon icon="mdi:account-circle" class="text-2xl text-gray-700"></iconify-icon>
+                    <iconify-icon icon="mdi:account-circle" class="text-2xl"></iconify-icon>
                     <span class="font-medium">{{ auth()->check() ? (auth()->user()->fullname ?? 'Admin') : 'Admin' }}</span>
                 </div>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="text-red-800 hover:text-red-900 flex items-center gap-1" title="Logout">
+                    <button type="submit" class="flex items-center gap-1 hover:text-gray-200" title="Logout">
                         <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
                         Logout
                     </button>
@@ -47,85 +46,39 @@
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-3">
             <h2 class="text-3xl font-bold text-gray-800">Administrator/Secretary Dashboard</h2>
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('admin.records.index') }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
+                <a href="{{ route('admin.records.index') }}" class="bg-[#660809] hover:bg-black text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
                     <iconify-icon icon="mdi:folder-open"></iconify-icon> Manage Records
                 </a>
-                <a href="{{ route('admin.analytics') }}" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
+                <a href="{{ route('admin.analytics') }}" class="bg-[#660809] hover:bg-black text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
                     <iconify-icon icon="mdi:chart-bar"></iconify-icon> Analytics
                 </a>
-                <a href="{{ route('admin.users.index') }}" class="bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
+                <a href="{{ route('admin.users.index') }}" class="bg-[#660809] hover:bg-black text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
                     <iconify-icon icon="mdi:account-multiple-outline"></iconify-icon> Manage Users
                 </a>
-                <a href="{{ route('admin.payments.index') }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
+                <a href="{{ route('admin.payments.index') }}" class="bg-[#660809] hover:bg-black text-white px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center gap-2">
                     <iconify-icon icon="mdi:money-check"></iconify-icon> Payment Tracking
                 </a>
             </div>
         </div>
 
-        {{-- Search & Filters --}}
-        <div class="bg-white rounded-2xl shadow p-6 mb-8 border">
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Search & Filter Applications</h3>
-
-            <form class="grid md:grid-cols-4 gap-4 mb-4">
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Search by Name/ID</label>
-                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500" placeholder="Enter student name or ID...">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Status</label>
-                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500">
-                        <option value="">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Department</label>
-                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500">
-                        <option value="">All Departments</option>
-                        <option>Computer Science</option>
-                        <option>Engineering</option>
-                        <option>Business Administration</option>
-                        <option>Education</option>
-                        <option>Nursing</option>
-                        <option>Arts and Sciences</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Date</label>
-                    <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500">
-                </div>
-
-                <div class="md:col-span-4 flex items-center justify-between pt-2">
-                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium inline-flex items-center gap-2">
-                        <iconify-icon icon="mdi:filter"></iconify-icon> Apply Filters
-                    </button>
-                    <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium inline-flex items-center gap-2">
-                        <iconify-icon icon="mdi:close"></iconify-icon> Clear Filters
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        {{-- Stat Cards (red gradients) --}}
+        {{-- Stat Cards (maroon theme) --}}
         <div class="grid md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-gradient-to-r from-red-700 to-red-800 text-white p-6 rounded-xl shadow-lg">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow-lg">
                 <iconify-icon icon="mdi:file-document-outline" class="text-3xl mb-3"></iconify-icon>
                 <h3 class="text-lg font-semibold">Total Notes</h3>
                 <p class="text-3xl font-bold">{{ $stats['total'] }}</p>
             </div>
-            <div class="bg-gradient-to-r from-yellow-600 to-yellow-700 text-white p-6 rounded-xl shadow-lg">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow-lg">
                 <iconify-icon icon="mdi:clock-outline" class="text-3xl mb-3"></iconify-icon>
                 <h3 class="text-lg font-semibold">Pending Review</h3>
                 <p class="text-3xl font-bold">{{ $stats['pending'] }}</p>
             </div>
-            <div class="bg-gradient-to-r from-green-600 to-green-700 text-white p-6 rounded-xl shadow-lg">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow-lg">
                 <iconify-icon icon="mdi:check-circle-outline" class="text-3xl mb-3"></iconify-icon>
                 <h3 class="text-lg font-semibold">Approved</h3>
                 <p class="text-3xl font-bold">{{ $stats['approved'] }}</p>
             </div>
-            <div class="bg-gradient-to-r from-red-800 to-red-900 text-white p-6 rounded-xl shadow-lg">
+            <div class="bg-[#660809] text-white p-6 rounded-xl shadow-lg">
                 <iconify-icon icon="mdi:close-circle-outline" class="text-3xl mb-3"></iconify-icon>
                 <h3 class="text-lg font-semibold">Rejected</h3>
                 <p class="text-3xl font-bold">{{ $stats['rejected'] }}</p>
@@ -134,13 +87,13 @@
 
         {{-- Pending Requests --}}
         <div class="bg-white rounded-2xl shadow border overflow-hidden">
-            <div class="px-6 py-4 bg-gray-100 border-b">
-                <h3 class="text-xl font-bold text-gray-800">Pending Requests</h3>
+            <div class="px-6 py-4 bg-[#660809] text-white border-b">
+                <h3 class="text-xl font-bold">Pending Requests</h3>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full table-auto">
-                    <thead class="bg-gray-50 text-gray-700">
+                    <thead class="bg-gray-100 text-gray-700">
                         <tr>
                             <th class="px-6 py-3 text-left font-semibold">Note ID</th>
                             <th class="px-6 py-3 text-left font-semibold">Student Info</th>
@@ -151,7 +104,7 @@
                             <th class="px-6 py-3 text-left font-semibold">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm text-gray-800" id="adminPendingTable">
+                    <tbody class="text-sm text-gray-800">
                         @forelse ($pendingNotes as $note)
                             <tr class="border-b hover:bg-gray-50">
                                 <td class="px-6 py-4 font-medium">{{ $note->pn_id ?? $note->id }}</td>
@@ -160,7 +113,7 @@
                                     <div class="text-gray-500 text-xs">{{ $note->student_id }} • {{ $note->gender ?? '—' }}</div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="inline-block bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full">
+                                    <span class="inline-block bg-gray-200 text-gray-800 text-xs px-3 py-1 rounded-full">
                                         {{ $note->department ?? '—' }}
                                     </span>
                                 </td>
@@ -172,13 +125,13 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
-                                        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-green-600 hover:bg-green-700 text-white" title="Approve">
+                                        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#660809] hover:bg-black text-white" title="Approve">
                                             <iconify-icon icon="mdi:check"></iconify-icon>
                                         </a>
-                                        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-600 hover:bg-red-700 text-white" title="Reject">
+                                        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#660809] hover:bg-black text-white" title="Reject">
                                             <iconify-icon icon="mdi:close"></iconify-icon>
                                         </a>
-                                        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-700 text-white" title="View">
+                                        <a href="#" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#660809] hover:bg-black text-white" title="View">
                                             <iconify-icon icon="mdi:eye-outline"></iconify-icon>
                                         </a>
                                     </div>
@@ -195,6 +148,5 @@
     </main>
 </div>
 
-{{-- Iconify --}}
 <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
 @endsection

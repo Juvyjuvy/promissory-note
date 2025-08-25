@@ -3,8 +3,6 @@
 @section('content')
 @php
     $u = auth()->user();
-
-    // Build Student ID like 2025-01044 (YYYY-#####)
     $year = $u->admission_year ?? ($u && $u->created_at ? $u->created_at->format('Y') : now()->format('Y'));
     $generatedId = $year . '-' . str_pad((string) ($u->id ?? 0), 5, '0', STR_PAD_LEFT);
     $studentId = $u->student_id ?? $generatedId;
@@ -17,23 +15,22 @@
             <h1 class="text-2xl font-bold text-[#660809] ">MY.SPC</h1>
             <p class="text-sm text-[#000000] ">Promissory Note Management System</p>
         </div>
- <form method="POST" action="{{ route('logout') }}">
-      @csrf
-        <div class="flex items-center gap-6">
-            <button class="relative text-[#660809]  hover:text-[#000000] ">
-                <iconify-icon icon="mdi:bell-outline" class="text-2xl"></iconify-icon>
-            </button>
-            <div class="flex items-center gap-2">
-                <iconify-icon icon="mdi:account-circle" class="text-2xl text-gray-700"></iconify-icon>
-                {{-- dynamic user name (uses users.fullname) --}}
-                <span class="font-medium">{{ $u->fullname ?? 'Student' }}</span>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <div class="flex items-center gap-6">
+                <button class="relative text-[#660809] hover:text-[#000000]">
+                    <iconify-icon icon="mdi:bell-outline" class="text-2xl"></iconify-icon>
+                </button>
+                <div class="flex items-center gap-2">
+                    <iconify-icon icon="mdi:account-circle" class="text-2xl text-gray-700"></iconify-icon>
+                    <span class="font-medium">{{ $u->fullname ?? 'Student' }}</span>
+                </div>
+                <button class="text-[#660809] hover:text-[#000000] flex items-center gap-1">
+                    <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
+                    Logout
+                </button>
             </div>
-            <button class="text-[#660809]  hover:text-[#000000]  flex items-center gap-1">
-                <iconify-icon icon="mdi:logout" class="text-xl"></iconify-icon>
-                Logout
-            </button>
-        </div>
-         </form>
+        </form>
     </header>
 
     <main class="p-6 max-w-5xl mx-auto w-full">
@@ -45,33 +42,31 @@
             </a>
         </div>
 
-        <!-- Card -->
         <div class="bg-white p-6 rounded-lg shadow">
             <h2 class="text-xl font-bold mb-6">Submit New Promissory Note</h2>
 
-            {{-- MAIN FORM (wraps all inputs, no nested forms) --}}
             <form id="promissoryForm"
-                  action="{{ route('promissory-notes.store') }}"
+                  action="{{ route('student.promissory.submit') }}"
                   method="POST"
                   enctype="multipart/form-data">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    {{-- Student Name (readonly) --}}
                     <div>
                         <label class="block text-sm font-medium mb-1">Student Name</label>
-                        <input type="text" name="student_name"
+                        <input type="text"
                                value="{{ $u->fullname ?? '' }}"
-                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600" readonly>
+                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600"
+                               readonly>
                     </div>
 
-                    {{-- Student ID (readonly, format YYYY-#####) --}}
                     <div>
                         <label class="block text-sm font-medium mb-1">Student ID</label>
-                        <input type="text" name="student_id"
+                        <input type="text"
                                value="{{ $studentId }}"
-                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600" readonly>
+                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600"
+                               readonly>
                     </div>
 
                     <div>
@@ -113,7 +108,7 @@
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Amount (₱)</label>
-                        <input type="number" name="amount" value="{{ old('amount') }}"
+                        <input type="number" name="amount" value="{{ old('amount') }}" min="0" step="0.01"
                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
                     </div>
 
@@ -145,7 +140,7 @@
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Down Payment (₱)</label>
-                        <input type="number" name="down_payment" value="{{ old('down_payment') }}"
+                        <input type="number" name="down_payment" value="{{ old('down_payment') }}" min="0" step="0.01"
                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-red-600">
                     </div>
 
@@ -171,7 +166,7 @@
 
                 <div class="pt-4">
                     <button type="button" onclick="reviewApplication()"
-                            class="bg-[#660809]  hover:bg-[#000000]  text-white px-6 py-2 rounded-lg shadow">
+                            class="bg-[#660809] hover:bg-[#000000] text-white px-6 py-2 rounded-lg shadow">
                         Review Application
                     </button>
                 </div>
@@ -180,7 +175,7 @@
     </main>
 </div>
 
-{{-- Review Modal (no nested form) --}}
+{{-- Review Modal --}}
 <div id="reviewModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white w-full max-w-2xl rounded-lg shadow-lg p-6 relative">
         <button onclick="document.getElementById('reviewModal').classList.add('hidden')"
@@ -191,44 +186,153 @@
 
         <div class="mt-6 flex justify-end gap-3">
             <button type="button" onclick="document.getElementById('reviewModal').classList.add('hidden')"
-                    class="px-5 py-2 bg-[#660809]  rounded-lg hover:bg-[#000000] text-white">Cancel</button>
+                    class="px-5 py-2 bg-[#660809] rounded-lg hover:bg-[#000000] text-white">Cancel</button>
             <button type="button" onclick="submitFinal()"
-                    class="bg-[#660809]  hover:bg-[#000000] text-white px-6 py-2 rounded-lg">
+                    class="bg-[#660809] hover:bg-[#000000] text-white px-6 py-2 rounded-lg">
                 Submit
             </button>
         </div>
     </div>
 </div>
 
-<!-- ICONIFY SCRIPT -->
 <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
-
 <script>
-    function reviewApplication() {
-        const form = document.getElementById('promissoryForm');
-        const data = new FormData(form);
+  // expose server values for review (since readonly inputs have no name=)
+  const STUDENT = {
+    name: @json($u->fullname ?? ''),
+    id:   @json($studentId ?? ''),
+    email:@json($u->email ?? ''),
+    phone:@json(old('phone', '')),
+    gender:@json(old('gender','')),
+    dept:@json(old('department','')),
+    yearLevel:@json(old('year_level','')),
+  };
 
-        let reviewHTML = "";
-        for (let [key, value] of data.entries()) {
-            if (key !== "attachments[]") {
-                reviewHTML += `<p><strong>${key}:</strong> ${value}</p>`;
-            }
-        }
+  const LABEL = (t) => `<span class="text-gray-600">${t}</span>`;
+  const VAL   = (t) => `<span class="font-semibold">${t || '<span class="text-gray-400">—</span>'}</span>`;
+  const SEP   = () => `<div class="border-t my-2"></div>`;
 
-        const files = data.getAll('attachments[]');
-        if (files.length > 0 && files[0].name) {
-            reviewHTML += "<p><strong>Attached Files:</strong></p><ul class='list-disc pl-5'>";
-            files.forEach(f => reviewHTML += `<li>${f.name}</li>`);
-            reviewHTML += "</ul>";
-        }
+  function peso(n) {
+    if (n === null || n === '' || isNaN(n)) return '';
+    try { return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(Number(n)); }
+    catch { return `₱${Number(n).toLocaleString()}`; }
+  }
 
-        document.getElementById('reviewContent').innerHTML = reviewHTML;
-        document.getElementById('reviewModal').classList.remove('hidden');
-    }
+  function fmtDate(v) {
+    if (!v) return '';
+    const d = new Date(v);
+    if (isNaN(d)) return v;
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
 
-    function submitFinal() {
-        document.getElementById('promissoryForm').submit();
-    }
+  function nowStamp() {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mi = String(d.getMinutes()).padStart(2,'0');
+    const ss = String(d.getSeconds()).padStart(2,'0');
+    return `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+  }
+
+  function reviewApplication() {
+    const form = document.getElementById('promissoryForm');
+    const data = new FormData(form);
+
+    // collect note fields
+    const note = {
+      amount: data.get('amount'),
+      reason: data.get('reason'),
+      term: data.get('term'),
+      ay: data.get('academic_year'),
+      due: data.get('due_date'),
+      notes: data.get('notes'),
+      down: data.get('down_payment'),
+      attachments: data.getAll('attachments[]') || []
+    };
+
+    // If user typed values after load, prefer current form values for student side fields
+    STUDENT.phone    = data.get('phone') || STUDENT.phone;
+    STUDENT.gender   = data.get('gender') || STUDENT.gender;
+    STUDENT.dept     = data.get('department') || STUDENT.dept;
+    STUDENT.yearLevel= data.get('year_level') || STUDENT.yearLevel;
+
+    // build Student Information column
+    const left = `
+      <h3 class="text-lg font-bold mb-3">Student Information</h3>
+      ${row('Name:', STUDENT.name)}
+      ${row('Student ID:', STUDENT.id)}
+      ${row('Email:', STUDENT.email)}
+      ${row('Phone:', STUDENT.phone)}
+      ${row('Gender:', STUDENT.gender)}
+      ${row('Department:', STUDENT.dept)}
+      ${row('Year Level:', STUDENT.yearLevel)}
+    `;
+
+    // build Promissory Note Details column (Note ID not yet generated pre-submit)
+    const right = `
+      <h3 class="text-lg font-bold mb-3">Promissory Note Details</h3>
+      ${row('Note ID:', '')}
+      ${row('Amount:', note.amount ? `<span class="text-green-600 font-bold">${peso(note.amount)}</span>` : '')}
+      ${row('Reason:', note.reason)}
+      ${row('Term:', note.term)}
+      ${row('Academic Year:', note.ay)}
+      ${row('Due Date:', fmtDate(note.due))}
+      ${row('Status:', `<span class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm">Pending</span>`)}
+      ${row('Submitted:', nowStamp())}
+      ${attachmentsBlock(note.attachments)}
+      ${note.notes ? SEP() + row('Notes:', `<span class="whitespace-pre-line">${escapeHtml(note.notes)}</span>`) : ''}
+    `;
+
+    const html = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-2">${left}</div>
+        <div class="space-y-2">${right}</div>
+      </div>
+    `;
+
+    document.getElementById('reviewContent').innerHTML = html;
+    document.getElementById('reviewModal').classList.remove('hidden');
+  }
+
+  function row(label, valueHtml) {
+    return `
+      <div class="py-2">
+        <div class="flex items-center justify-between">
+          <div class="text-sm">${LABEL(label)}</div>
+          <div class="text-sm text-right">${valueHtml || '<span class="text-gray-400">—</span>'}</div>
+        </div>
+        <div class="border-t mt-2"></div>
+      </div>
+    `;
+  }
+
+  function attachmentsBlock(files) {
+    const list = (files || []).filter(f => f && (f.name || typeof f === 'string'));
+    if (!list.length) return '';
+    const items = list.map(f => `<li class="flex items-center justify-between py-1">
+        <span class="truncate">${escapeHtml(f.name ? f.name : String(f))}</span>
+      </li>`).join('');
+    return `
+      ${row('Attachments:', '')}
+      <ul class="list-disc pl-5 text-sm">${items}</ul>
+    `;
+  }
+
+  function submitFinal() {
+    document.getElementById('promissoryForm').submit();
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
 </script>
-
-@endsection

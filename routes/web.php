@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminPromissoryNoteController;
 use App\Http\Controllers\PromissoryNoteController;
 use App\Http\Controllers\StudentNotificationController;
+use App\Http\Controllers\AdminRecordsController; // ⬅️ add this
 
 // ------------------------- Public -------------------------
 Route::get('/', [IntroPageController::class, 'intropage'])->name('intro');
@@ -29,8 +30,9 @@ Route::middleware(['auth'])->prefix('student')->group(function () {
     Route::get('/status-tracking', [StudentDashboardController::class, 'StatusTracking'])->name('student.status-tracking');
     Route::get('/payment-history', [StudentDashboardController::class, 'PaymentHistory'])->name('student.payment-history');
 
-    // submit
-    Route::post('/promissory-note-submit', [PromissoryNoteController::class, 'store'])->name('promissory-notes.store');
+    Route::post('/promissory-notes', [PromissoryNoteController::class, 'store'])
+        ->name('student.promissory.submit');
+
 
     // notifications
     Route::get('/notifications', [StudentNotificationController::class, 'index'])->name('student.notifications');
@@ -39,18 +41,27 @@ Route::middleware(['auth'])->prefix('student')->group(function () {
 
 // ------------------------- Admin -------------------------
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'AdminDashboard'])->name('admin.dashboard');
-    Route::get('/analytics', [AdminDashboardController::class, 'AdminAnalytic'])->name('admin.analytics');
-    Route::view('/records', 'admin.records.index')->name('admin.records.index');
-    Route::view('/admin/users', 'admin.users.index')->name('admin.users.index');
-    Route::view('/payments', 'admin.placeholder')->name('admin.payments.index');
-    Route::view('/records/export', 'admin.placeholder')->name('admin.records.export');
-    Route::view('/records/{id}', 'admin.placeholder')->name('admin.records.show');
-    Route::view('/users/{id}/edit', 'admin.placeholder')->name('admin.users.edit');
-    Route::view('/users/{id}/destroy', 'admin.placeholder')->name('admin.users.destroy');
-    Route::view('/users/create', 'admin.placeholder')->name('admin.users.store');
-    Route::view('/downpayments', 'admin.downpayments')->name('admin.downpayments');
+    Route::get('/dashboard',  [AdminDashboardController::class, 'AdminDashboard'])->name('admin.dashboard');
+    Route::get('/analytics',  [AdminDashboardController::class, 'AdminAnalytic'])->name('admin.analytics');
 
-    Route::post('/promissory-notes/{note}/approve', [AdminPromissoryNoteController::class, 'approve'])->name('admin.pn.approve');
-    Route::post('/promissory-notes/{note}/reject',  [AdminPromissoryNoteController::class, 'reject'])->name('admin.pn.reject');
+    // Manage Records (controller)
+    Route::get('/records', [AdminRecordsController::class, 'index'])->name('admin.records.index');
+
+    // Views inside admin (remove extra /admin)
+    Route::view('/users',            'admin.users.index')->name('admin.users.index');
+    Route::view('/payments',         'admin.downpayments')->name('admin.payments.index');
+    Route::view('/records/export',   'admin.placeholder')->name('admin.records.export');
+    Route::view('/records/{id}',     'admin.placeholder')->name('admin.records.show');
+    Route::view('/users/{id}/edit',  'admin.placeholder')->name('admin.users.edit');
+    Route::view('/users/{id}/destroy','admin.placeholder')->name('admin.users.destroy');
+    Route::view('/users/create',     'admin.placeholder')->name('admin.users.store');
+    Route::view('/downpayments',     'admin.downpayments')->name('admin.downpayments');
+
+    // Actions
+    Route::get('/promissory-notes', [PromissoryNoteAdminController::class, 'index'])
+            ->name('promissory.index');
+        Route::get('/promissory-notes/{promissoryNote}', [PromissoryNoteAdminController::class, 'show'])
+            ->name('promissory.show');
+        Route::put('/promissory-notes/{promissoryNote}/status', [PromissoryNoteAdminController::class, 'updateStatus'])
+            ->name('promissory.status');
 });

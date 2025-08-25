@@ -1,45 +1,37 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\PromissoryNote;
-use App\Models\Evaluation;
-use App\Notifications\PromissoryNoteEvaluated;
 use Illuminate\Http\Request;
 
-class AdminPromissoryNoteController extends Controller
+class PromissoryNoteAdminController extends Controller
 {
-    public function approve(PromissoryNote $note)
+    public function index(Request $request)
     {
-        $note->update(['status' => 'approved']);
+        $q = PromissoryNote::with('user')
+            ->when($request->filled('status'), fn($s) => $s->where('status', $request->status))
+            ->latest()
+            ->paginate(20);
 
-        Evaluation::create([
-            'pn_id'        => $note->pn_id,
-            'evaluator_id' => auth()->id(),
-            'decision'     => 'approved',
-            'reason'       => null,
-        ]);
-
-        $note->user?->notify(new PromissoryNoteEvaluated($note, 'approved'));
-
-        return back()->with('success', 'Request approved.');
+        return view('admin.promissory.index', ['notes' => $q]);
     }
 
-    public function reject(Request $request, PromissoryNote $note)
+    public function show(PromissoryNote $promissoryNote)
     {
-        $data = $request->validate(['reason' => 'required|string|max:255']);
+        $promissoryNote->load('user');
+        return view('admin.promissory.show', compact('promissoryNote'));
+    }
 
-        $note->update(['status' => 'rejected']);
-
-        Evaluation::create([
-            'pn_id'        => $note->pn_id,
-            'evaluator_id' => auth()->id(),
-            'decision'     => 'rejected',
-            'reason'       => $data['reason'],
+    public function updateStatus(Request $request, PromissoryNote $promissoryNote)
+    {
+        $data = $request->validate([
+            'status' => 'required|string|in:pending,approved,rejected',
         ]);
 
-        $note->user?->notify(new PromissoryNoteEvaluated($note, 'rejected', $data['reason']));
+        $promissoryNote->update(['status' => $data['status']]);
 
-        return back()->with('success', 'Request rejected.');
+        return back()->with('success', 'Status updated.');
     }
 }
